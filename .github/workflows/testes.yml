@@ -1,0 +1,27 @@
+name: Testes
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Compilar, rodar os testes JUnit e gerar o .jar
+        run: mvn -B verify
+
+      - name: Publicar o .jar executável
+        uses: actions/upload-artifact@v4
+        with:
+          name: urna-digital
+          path: target/urna-digital.jar
