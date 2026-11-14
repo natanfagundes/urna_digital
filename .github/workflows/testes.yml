@@ -25,3 +25,25 @@ jobs:
         with:
           name: urna-digital
           path: target/urna-digital.jar
+
+  exe-windows:
+    needs: testes
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Gerar o .exe com o Java embutido
+        shell: cmd
+        run: gerar-exe.bat
+
+      - name: Publicar a pasta do programa para Windows
+        uses: actions/upload-artifact@v4
+        with:
+          name: UrnaDigital-windows
+          path: dist/UrnaDigital

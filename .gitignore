@@ -1,6 +1,8 @@
 # Compilação
 out/
 target/
+build-exe/
+dist/
 *.class
 
 # Dados gerados ao usar a urna

@@ -43,6 +43,19 @@ Pré-requisito: **Java (JDK) 11 ou superior** — por exemplo, o [Eclipse Temuri
 - **Com Maven:** `mvn package` gera `target/urna-digital.jar`, que roda com `java -jar target/urna-digital.jar`.
 - **IDE:** abra a pasta no IntelliJ IDEA, Eclipse ou VS Code (o `pom.xml` é reconhecido) e execute `urna.Main`.
 
+### Gerar um .exe para outras pessoas testarem
+
+Dois cliques em **`gerar-exe.bat`** (precisa do JDK 17 ou superior). Ele cria
+`dist/UrnaDigital-windows.zip` (~25 MB), que já leva um Java embutido: quem recebe só descompacta e
+abre `UrnaDigital\UrnaDigital.exe`, **sem instalar nada**. As eleições ficam na pasta `eleicoes`,
+ao lado do programa.
+
+O GitHub Actions também gera essa pasta a cada envio: aba **Actions** → execução mais recente →
+**Artifacts** → `UrnaDigital-windows`.
+
+> Como o `.exe` não tem assinatura digital, o Windows pode mostrar "O Windows protegeu o computador".
+> Basta clicar em **Mais informações → Executar assim mesmo**.
+
 Para experimentar, escolha um dos exemplos na tela inicial. A senha do mesário é **`1234`**.
 No exemplo do grêmio, as matrículas vão de `2026001` a `2026020`.
 

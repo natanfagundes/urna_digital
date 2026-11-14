@@ -40,7 +40,11 @@ import java.util.Properties;
  */
 public class RepositorioEleicao {
 
-    public static final Path PASTA_ELEICOES = Paths.get("eleicoes");
+    /**
+     * Pasta onde ficam as eleições. Por padrão, "eleicoes" no diretório atual; o .exe
+     * define a propriedade {@code urna.dados} para usar a pasta ao lado do executável.
+     */
+    public static final Path PASTA_ELEICOES = Paths.get(System.getProperty("urna.dados", "eleicoes"));
 
     private static final String ARQ_ELEICAO = "eleicao.properties";
     private static final String ARQ_CARGOS = "cargos.csv";
