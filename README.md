@@ -72,6 +72,9 @@ Os testes também rodam automaticamente no GitHub a cada envio (aba **Actions**)
 
 ## Documentação
 
+📄 **Versões em PDF:** [Guia Simples](docs/pdf/Urna-Digital-Guia-Simples.pdf) · [Documentação Técnica](docs/pdf/Urna-Digital-Documentacao-Tecnica.pdf)
+(para gerar de novo após editar os documentos: `python ferramentas/gerar_pdfs.py`, que usa o Chrome ou o Edge)
+
 **Para quem não é da área de computação**
 
 | Documento | Conteúdo |
