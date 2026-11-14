@@ -72,9 +72,18 @@ Os testes também rodam automaticamente no GitHub a cada envio (aba **Actions**)
 
 ## Documentação
 
+**Para quem não é da área de computação**
+
 | Documento | Conteúdo |
 |---|---|
-| [Manual do usuário](docs/manual-do-usuario.md) | Como preparar e conduzir uma eleição |
+| [Guia simples](docs/guia-para-leigos.md) | O que é, como abrir, como votar, tipos de voto, acessibilidade e perguntas frequentes, sem termos técnicos |
+| [Manual do usuário](docs/manual-do-usuario.md) | Passo a passo completo para organizar uma eleição na escola |
+
+**Para desenvolvedores e avaliadores**
+
+| Documento | Conteúdo |
+|---|---|
+| [Documentação técnica](docs/documentacao-tecnica.md) | Build, testes, empacotamento, CI, classes, funcionamento interno, como estender e limitações |
 | [Requisitos](docs/requisitos.md) | Requisitos funcionais e não funcionais, regras de negócio e rastreabilidade com os testes |
 | [Casos de uso](docs/casos-de-uso.md) | Diagrama e descrição dos casos de uso |
 | [Arquitetura](docs/arquitetura.md) | Camadas, diagrama de classes, sequência, estados e formato dos arquivos |

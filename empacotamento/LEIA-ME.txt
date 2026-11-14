@@ -1,0 +1,25 @@
+URNA DIGITAL - como usar
+========================
+
+1. Abra o UrnaDigital.exe (icone de urna).
+   Se aparecer "O Windows protegeu o computador": clique em
+   "Mais informacoes" e depois em "Executar assim mesmo".
+
+2. Para testar, clique em "Exemplo: gremio estudantil" e depois em
+   "Iniciar votacao".
+
+3. A urna fica BLOQUEADA ate o mesario liberar:
+   aperte Ctrl + L e digite uma matricula de 2026001 a 2026020.
+
+4. Vote: digite o numero do candidato e aperte CONFIRMA (verde).
+   CORRIGE (laranja) apaga. BRANCO vota em ninguem.
+   Pelo teclado: numeros, Enter = confirma, Backspace = corrige, B = branco.
+
+5. Para ver o resultado: menu Mesario > Encerrar votacao.
+   Senha do mesario do exemplo: 1234
+
+Acessibilidade: F2 alto contraste | F3 letras grandes | F4 leitura em voz alta
+Modo aula (explica cada etapa): F5
+
+As eleicoes ficam salvas na pasta "eleicoes", ao lado desta pasta.
+Guia completo: https://github.com/natanfagundes/urna_digital/blob/main/docs/guia-para-leigos.md

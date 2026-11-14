@@ -43,6 +43,7 @@ rem java.desktop = Swing, sons e imagens. As eleicoes ficam na pasta "eleicoes" 
     --dest dist || goto erro
 
 echo [4/4] Compactando...
+copy /y empacotamento\LEIA-ME.txt dist\UrnaDigital\ > nul || goto erro
 powershell -NoProfile -Command "Compress-Archive -Path 'dist\UrnaDigital' -DestinationPath 'dist\UrnaDigital-windows.zip' -Force" || goto erro
 
 echo.
