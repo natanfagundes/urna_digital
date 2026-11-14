@@ -1,0 +1,16 @@
+# Compilação
+out/
+target/
+*.class
+
+# Dados gerados ao usar a urna
+relatorios/
+eleicoes/*/votacao/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
