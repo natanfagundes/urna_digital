@@ -1,14 +1,17 @@
 @echo off
 chcp 65001 > nul
 cd /d "%~dp0"
-if not exist out mkdir out
-dir /s /b src\*.java test\*.java > out\fontes-testes.txt
-javac -encoding UTF-8 -d out @out\fontes-testes.txt
+where mvn > nul 2>&1
 if errorlevel 1 (
+    echo O Maven nao foi encontrado.
     echo.
-    echo Erro na compilacao. Verifique se o JDK esta instalado ^(comando javac^).
+    echo Para rodar os testes JUnit:
+    echo   - instale o Maven ^(https://maven.apache.org^) e rode este arquivo de novo; ou
+    echo   - abra a pasta no IntelliJ IDEA / Eclipse / VS Code e rode os testes de src\test\java.
+    echo.
+    echo Os testes tambem rodam automaticamente no GitHub a cada envio ^(aba Actions^).
     pause
     exit /b 1
 )
-java -Dstdout.encoding=UTF-8 -cp out urna.TesteUrna
+call mvn -q test
 pause

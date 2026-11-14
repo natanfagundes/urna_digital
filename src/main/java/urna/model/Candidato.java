@@ -1,5 +1,8 @@
 package urna.model;
 
+import urna.util.Textos;
+
+import java.nio.file.Path;
 import java.util.Objects;
 
 /**
@@ -13,16 +16,25 @@ public class Candidato {
     private final Partido partido;
     private final Cargo cargo;
     private final String nomeVice;
+    private final Path foto;
 
     public Candidato(int numero, String nome, Partido partido, Cargo cargo) {
-        this(numero, nome, partido, cargo, null);
+        this(numero, nome, partido, cargo, null, null);
     }
 
     public Candidato(int numero, String nome, Partido partido, Cargo cargo, String nomeVice) {
-        if (nome == null || nome.trim().isEmpty()) {
+        this(numero, nome, partido, cargo, nomeVice, null);
+    }
+
+    /**
+     * @param nomeVice obrigatório se o cargo possui vice; ignorado caso contrário
+     * @param foto     arquivo de imagem do candidato, ou {@code null}
+     */
+    public Candidato(int numero, String nome, Partido partido, Cargo cargo, String nomeVice, Path foto) {
+        if (Textos.vazio(nome)) {
             throw new IllegalArgumentException("O nome do candidato é obrigatório.");
         }
-        Objects.requireNonNull(partido, "O partido é obrigatório.");
+        Objects.requireNonNull(partido, "O partido/chapa é obrigatório.");
         Objects.requireNonNull(cargo, "O cargo é obrigatório.");
 
         String numeroTexto = String.valueOf(numero);
@@ -32,10 +44,11 @@ public class Candidato {
         }
         if (!numeroTexto.startsWith(String.valueOf(partido.getNumero()))) {
             throw new IllegalArgumentException("O número " + numero
-                    + " deve começar com o número do partido " + partido.getNumero());
+                    + " deve começar com o número do partido/chapa (" + partido.getNumero() + ").");
         }
-        if (cargo.possuiVice() && (nomeVice == null || nomeVice.trim().isEmpty())) {
-            throw new IllegalArgumentException("Candidato a " + cargo + " precisa de um vice.");
+        if (cargo.possuiVice() && Textos.vazio(nomeVice)) {
+            throw new IllegalArgumentException("Candidato a " + cargo + " precisa de "
+                    + cargo.getRotuloVice() + ".");
         }
 
         this.numero = numero;
@@ -43,6 +56,7 @@ public class Candidato {
         this.partido = partido;
         this.cargo = cargo;
         this.nomeVice = cargo.possuiVice() ? nomeVice.trim() : null;
+        this.foto = foto;
     }
 
     public int getNumero() {
@@ -66,12 +80,22 @@ public class Candidato {
         return nomeVice;
     }
 
+    /** Arquivo da foto, ou {@code null}. */
+    public Path getFoto() {
+        return foto;
+    }
+
+    /** Cópia deste candidato com outra foto. */
+    public Candidato comFoto(Path novaFoto) {
+        return new Candidato(numero, nome, partido, cargo, nomeVice, novaFoto);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Candidato)) return false;
         Candidato outro = (Candidato) o;
-        return numero == outro.numero && cargo == outro.cargo;
+        return numero == outro.numero && cargo.equals(outro.cargo);
     }
 
     @Override

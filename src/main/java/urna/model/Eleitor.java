@@ -3,7 +3,7 @@ package urna.model;
 import java.util.Objects;
 
 /**
- * Eleitor apto a votar na seção, identificado pelo título de eleitor.
+ * Eleitor apto a votar, identificado pelo título de eleitor (ou matrícula, numa escola).
  */
 public class Eleitor {
 
@@ -12,7 +12,7 @@ public class Eleitor {
 
     public Eleitor(String titulo, String nome) {
         if (titulo == null || !titulo.trim().matches("\\d+")) {
-            throw new IllegalArgumentException("O título de eleitor deve conter apenas números: " + titulo);
+            throw new IllegalArgumentException("O título/matrícula deve conter apenas números: " + titulo);
         }
         if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("O nome do eleitor é obrigatório.");
