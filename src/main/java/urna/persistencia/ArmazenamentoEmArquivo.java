@@ -8,6 +8,7 @@ import urna.util.Hash;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,6 +38,7 @@ public class ArmazenamentoEmArquivo implements ArmazenamentoVotacao {
 
     private static final String CABECALHO = "URNA-DIGITAL-VOTACAO;1";
     private static final char SEP = ';';
+    private static final int TENTATIVAS = 10;
     private static final DateTimeFormatter FORMATO_ARQUIVO = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
 
     private final Path pasta;
@@ -94,13 +96,37 @@ public class ArmazenamentoEmArquivo implements ArmazenamentoVotacao {
             Files.createDirectories(pasta);
             Path temporario = pasta.resolve("estado.tmp");
             Files.write(temporario, texto.getBytes(StandardCharsets.UTF_8));
-            try {
-                Files.move(temporario, arquivo(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
-            } catch (AtomicMoveNotSupportedException e) {
-                Files.move(temporario, arquivo(), StandardCopyOption.REPLACE_EXISTING);
-            }
+            substituirComNovasTentativas(temporario);
         } catch (IOException e) {
             throw new UncheckedIOException("Não foi possível gravar a votação em " + arquivo().toAbsolutePath(), e);
+        }
+    }
+
+    /**
+     * Troca o estado.txt pelo arquivo temporário. No Windows, o OneDrive, o antivírus ou o
+     * indexador podem abrir o arquivo por um instante logo depois de gravado, e nesse momento
+     * a troca é negada (AccessDeniedException). Por isso tenta de novo algumas vezes.
+     */
+    private void substituirComNovasTentativas(Path temporario) throws IOException {
+        for (int tentativa = 1; ; tentativa++) {
+            try {
+                try {
+                    Files.move(temporario, arquivo(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+                } catch (AtomicMoveNotSupportedException e) {
+                    Files.move(temporario, arquivo(), StandardCopyOption.REPLACE_EXISTING);
+                }
+                return;
+            } catch (AccessDeniedException e) {
+                if (tentativa >= TENTATIVAS) {
+                    throw e;
+                }
+                try {
+                    Thread.sleep(50L * tentativa);
+                } catch (InterruptedException interrompida) {
+                    Thread.currentThread().interrupt();
+                    throw e;
+                }
+            }
         }
     }
 

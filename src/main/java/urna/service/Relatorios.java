@@ -32,7 +32,7 @@ public final class Relatorios {
         for (Cargo cargo : urna.getEleicao().getCargos()) {
             sb.append("------ ").append(cargo.getNome().toUpperCase()).append(" ------\n");
             for (Candidato c : urna.getEleicao().listarCandidatos(cargo)) {
-                sb.append(String.format("%-6d %-24s %-6s %11s%n",
+                sb.append(String.format("%-6d %-24s %-" + larguraSigla(urna) + "s %11s%n",
                         c.getNumero(), c.getNome(), c.getPartido().getSigla(), votos(urna.getVotosCandidato(c))));
             }
             sb.append(String.format("Brancos: %d   Nulos: %d   Total: %d%n%n",
@@ -68,7 +68,7 @@ public final class Relatorios {
 
             for (Candidato c : urna.ranking(cargo)) {
                 int v = urna.getVotosCandidato(c);
-                sb.append(String.format("%-6d %-24s %-6s %11s  %6s%n",
+                sb.append(String.format("%-6d %-24s %-" + larguraSigla(urna) + "s %11s  %6s%n",
                         c.getNumero(), c.getNome(), c.getPartido().getSigla(), votos(v), percentual(v, validos)));
             }
 
@@ -76,7 +76,7 @@ public final class Relatorios {
                 Map<Partido, Integer> cadeiras = apuracao.distribuirCadeiras(cargo);
                 sb.append("\nPor partido/chapa (nominais + legenda):\n");
                 for (Partido p : urna.getEleicao().listarPartidos()) {
-                    sb.append(String.format("%-6d %-8s %11s  (legenda: %d)  cadeiras: %d%n",
+                    sb.append(String.format("%-6d %-" + larguraSigla(urna) + "s %11s  (legenda: %d)  cadeiras: %d%n",
                             p.getNumero(), p.getSigla(), votos(urna.getVotosPartido(cargo, p)),
                             urna.getVotosLegenda(cargo, p), cadeiras.get(p)));
                 }
@@ -119,6 +119,15 @@ public final class Relatorios {
         }
         sb.append("=====================================\n");
         return sb.toString();
+    }
+
+    /** Largura da coluna de siglas, para alinhar mesmo com siglas longas ("NOVA GERAÇÃO"). */
+    private static int larguraSigla(Urna urna) {
+        int largura = 6;
+        for (Partido p : urna.getEleicao().listarPartidos()) {
+            largura = Math.max(largura, p.getSigla().length());
+        }
+        return largura;
     }
 
     private static String percentual(int parte, int total) {

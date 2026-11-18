@@ -7,7 +7,7 @@ dist/
 
 # Dados gerados ao usar a urna
 relatorios/
-eleicoes/*/votacao/
+eleicoes/
 
 # IDEs
 .idea/
